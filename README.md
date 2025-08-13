@@ -19,7 +19,7 @@ We are actively organizing and refining the codebase, and ⚡ **most features an
 ### Video Gallery
 | Video1 | Video2  | 
 | --- | --- |
-|<video src="https://github.com/user-attachments/assets/e02eec54-5d83-420a-bcf2-caf10d9a0ef6" width=480>  | <video src="https://github.com/user-attachments/assets/d6d905d9-5960-4064-8065-b397c6c9f8db" width=480>    | 
+|<video src="https://github.com/user-attachments/assets/e02eec54-5d83-420a-bcf2-caf10d9a0ef6" width=480>  |  <video src="https://github.com/user-attachments/assets/51e1abfa-139e-4ec0-af5c-c2422d254e3d" width=480> | 
 
 
 ### More Discrete Video Results on High-Compression VAE (4×16×16)
