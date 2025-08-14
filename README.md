@@ -1,7 +1,7 @@
 # OneVAE: Unified Repository for Continuous and Discrete VAE Training
 _Also the official open-source implementation of our work **OneVAE**._
 
-📄 **Paper**: [OneVAE: Joint Discrete and Continuous Optimization Helps Discrete VAE Train Better](https://arxiv.org/abs/XXXX.XXXXX)
+📄 **Paper**: [OneVAE: Joint Discrete and Continuous Optimization Helps Discrete VAE Train Better](https://arxiv.org/abs/2508.09857)
 
 **Key Contributions:**
 1. **Multiple Structural Improvements** — Introduces several architecture-level enhancements for discrete VAE to boost reconstruction quality under high compression.  
