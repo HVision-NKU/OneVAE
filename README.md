@@ -47,3 +47,7 @@ We are actively organizing and refining the codebase, and ⚡ **most features an
 - [ ] Release model code (to be completed within two weeks)
 - [ ] Provide pretrained weights download links
 - [ ] Support additional types of VAE models
+
+## LICENSE
+
+The code in this project
