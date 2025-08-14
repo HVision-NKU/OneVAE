@@ -50,4 +50,4 @@ We are actively organizing and refining the codebase, and ⚡ **most features an
 
 ## LICENSE
 
-The code in this project
+The code is licensed under the Apache License 2.0. When using our repository to fine-tune other models, you must comply with the licenses of the respective pretrained models.
