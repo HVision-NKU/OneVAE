@@ -14,6 +14,12 @@ _Also the official open-source implementation of our work **OneVAE**._
 In addition to releasing the code of this work, we aim to provide a unified repository that supports fine-tuning and training of [multiple pretrained VAE models](#planned-supported-fine-tuning), enabling the community to better adapt VAEs to their specific needs.  
 We are actively organizing and refining the codebase, and ⚡ **most features and resources will be released within two weeks!**
 
+### Open Source Model
+| Model Name   | Encoding Method                | Compression Ratio | Download Link                      |
+| ------------ | ------------------------------ | ----------------- | ---------------------------------- |
+| **OneVAE**   |  Discrete, Multi-Token Quant = 2     | 8 x 16 x 16    | [Link](https://huggingface.co/...) |
+| **OneVAE**   |  Discrete, Multi-Token Quant = 2     | 8 x 8 x 8    | [Link](https://huggingface.co/...) |
+
 ## Visual Results
 
 ### Video Gallery
