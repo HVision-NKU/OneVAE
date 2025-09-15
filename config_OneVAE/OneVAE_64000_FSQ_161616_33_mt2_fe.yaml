@@ -1,0 +1,80 @@
+ckpt_path: 'auto_resume'
+wandb_project_name: 'video_tokenizer_standard_test'
+exp_name: '1125_OneVAE_64000x640000_FSQ_161616'
+trainer:
+  log_every_n_steps: 10
+  precision: bf16
+  gradient_clip_val: 1.0
+  gradient_clip_algorithm: 'norm'
+  num_nodes: 1
+  accelerator: 'gpu'
+  strategy: 'ddp'
+  devices: 8
+  max_steps: 9999999
+  enable_checkpointing: true
+  val_check_interval: 5000
+
+ModelCheckpoint:
+  dirpath: './all_saves/1125_OneVAE_64000x640000_FSQ_161616'
+  filename: "{step}-model"
+  save_top_k: -1
+  every_n_train_steps: 5000
+
+model:
+  target: models.video_base_model.VideoBaseModel
+  params:
+    ckpt_path: 'pretrained_ckpts/FSQ_161616_mt2.ckpt'
+    learning_rate: 0.00005
+    ema_decay: 0.9999
+    embed_dim: 12
+    ignore_keys: ["discriminator"]
+    # n_embed: 16384
+    freezed_keys: ['encoder']
+    n_embed: 32768
+    monitor: val/rec_loss
+    only_temproal: false
+    quant_type: "FSQ"
+    linear_quant_conv: True
+    model_version: "v7"
+    quant_config:
+      levels: [8, 8, 8, 5, 5, 5]
+      num_codebooks: 2
+    ddconfig:
+      z_channels: 256
+      time_downsample: 4
+      in_channels: 3
+      ch: 128
+      ch_mult:
+      - 1
+      - 1
+      - 2
+      - 2
+      - 4
+      num_res_blocks: 2
+      dropout: 0.0
+      latent_space_gan: false
+    vaeconfig:
+      target: modules.onevae.vae161616_hybrid.VAE_One
+      params:
+        dim: 96
+        z_dim: 256
+        dim_mult: [1, 2, 4, 4, 4]
+        num_res_blocks: 2
+        attn_scales: []
+        temperal_downsample: [True, True, True, True]
+        dropout: 0.0
+    lossconfig:
+      target: modules.losses.vqperceptual.VQLPIPSWithDiscriminator2
+      params:
+        disc_conditional: false
+        disc_in_channels: 3
+        disc_num_layers: 2
+        disc_start: 30000
+        disc_weight: 0.2
+        codebook_weight: 1.0
+        pixelloss_weight: 1.0
+        perceptual_weight: 0.1
+        disc_factor: 1.0
+        g_loss_weight: 0.005
+        use_spectral_norm: True
+        discriminator_type: "TemporalGanDiscriminator"

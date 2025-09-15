@@ -1,0 +1,93 @@
+# 忽略操作系统生成的文件
+.DS_Store
+Thumbs.db
+
+# 忽略 Python 编译文件
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# 忽略临时编辑器文件
+*.swp
+*.swo
+*.tmp
+*.bak
+*.orig
+*.log
+
+# 忽略 Jupyter Notebook 检查点文件
+.ipynb_checkpoints/
+
+# 忽略版本控制文件夹
+.svn/
+.hg/
+.cvs/
+
+# 忽略压缩包和二进制文件
+*.zip
+*.tar
+*.gz
+*.rar
+*.7z
+*.exe
+*.dll
+*.so
+*.dylib
+*.o
+*.obj
+
+# 忽略图片、音视频文件
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tiff
+*.mp4
+*.mp3
+*.wav
+*.mkv
+*.avi
+
+# 忽略办公文件
+*.doc
+*.docx
+*.xls
+*.xlsx
+*.ppt
+*.pptx
+
+# 忽略数据库文件
+*.db
+*.sqlite
+*.sqlite3
+
+# 忽略虚拟环境相关文件
+.env/
+.venv/
+*.env
+*.venv
+
+# 忽略IDE和工具生成的文件
+.idea/
+.vscode/
+*.iml
+
+all_saves/
+wandb/
+checkpoints/
+debug/
+pretrained_ckpts/*
+psnr_results/
+slurm_output/
+old_files/
+
+*.pth
+*.ckpt
+*.safetensors
+
+test_dir/
+
+eval_tokenizer_test.py
+thin_weight.py
