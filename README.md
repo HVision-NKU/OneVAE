@@ -17,8 +17,9 @@ We are actively organizing and refining the codebase, and ⚡ **most features an
 ### Open Source Model
 | Model Name   | Encoding Method                | Compression Ratio | Download Link                      |
 | ------------ | ------------------------------ | ----------------- | ---------------------------------- |
-| **OneVAE**   |  Discrete, Multi-Token Quant = 2     | 8 x 16 x 16    | [Link](https://huggingface.co/...) |
-| **OneVAE**   |  Discrete, Multi-Token Quant = 2     | 8 x 8 x 8    | [Link](https://huggingface.co/...) |
+| **OneVAE**   |  Discrete, Multi-Token Quant = 2     | 8 x 16 x 16    | [Link](https://huggingface.co/YupengZhou/OneVAE/tree/main) |
+| **OneVAE**   |  Discrete, Multi-Token Quant = 2     | 16 x 16 x 16    | [Link](https://huggingface.co/YupengZhou/OneVAE/tree/main) |
+| **OneVAE**   |  Discrete, Multi-Token Quant = 2     | 8 x 8 x 8    | Link |
 
 ## Visual Results
 
