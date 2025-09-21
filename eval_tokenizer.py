@@ -30,7 +30,7 @@ def save_video(tensor, filename, fps=16, bitrate='8000k'):
     video_clip.write_videofile(filename, codec='libx264', bitrate=bitrate)
 
 
-def run_eval(config, enable_ema=False, video_path=None, enable_bf16=False, enable_tile=True, no_segment=True, encode_method='default'):
+def run_eval(config, enable_ema=False, video_path=None, enable_bf16=False, enable_tile=True, no_segment=True, encode_method='default',target_long_side=1080):
     exp_name = config.get('exp_name', 'exp25_unify')
     use_continue = False
     # 设置输出目录
@@ -48,7 +48,7 @@ def run_eval(config, enable_ema=False, video_path=None, enable_bf16=False, enabl
     model.eval()
     if video_path:
         # 处理指定路径的视频
-        val_loaders = process_video_path(video_path, model, config, enable_ema, enable_bf16, enable_tile)
+        val_loaders = process_video_path(video_path, model, config, enable_ema, enable_bf16, enable_tile,target_long_side)
         output_root_dir = f"./test_dir/{exp_name}" + ("_continue" if use_continue else "")
         if enable_ema:
             output_root_dir = f"./test_dir/{exp_name}_ema" + ("_continue" if use_continue else "")
@@ -125,7 +125,7 @@ def run_eval(config, enable_ema=False, video_path=None, enable_bf16=False, enabl
 
 
 
-def process_video_path(video_path, model, config, enable_ema, enable_bf16=False, enable_tile=False):
+def process_video_path(video_path, model, config, enable_ema, enable_bf16=False, enable_tile=False,target_long_side=1080):
     video_path = Path(video_path)
     if video_path.is_file():
         video_files = [video_path]
@@ -147,12 +147,12 @@ def process_video_path(video_path, model, config, enable_ema, enable_bf16=False,
             
         def __iter__(self):
             for idx, video_file in enumerate(self.video_files):
-                video_tensor = load_and_preprocess_video(video_file)
+                video_tensor = load_and_preprocess_video(video_file,target_long_side=target_long_side)
                 # 确保维度顺序为 (B,T,C,H,W)
                 video_tensor = video_tensor.unsqueeze(0)  # 添加batch维度 (1,T,C,H,W)
                 yield [idx], video_tensor.contiguous()
 
-    def load_and_preprocess_video(path, target_fps=16):
+    def load_and_preprocess_video(path, target_fps=16,target_long_side=1080):
         cap = cv2.VideoCapture(str(path))
         frames = []
         
@@ -161,10 +161,9 @@ def process_video_path(video_path, model, config, enable_ema, enable_bf16=False,
         print(f"Original video fps: {original_fps}")
         
         # 目标长边
-        target_long_side = 1280
         target_size = None  # (width, height)
         
-        def resize_to_long_side_1080(img):
+        def resize_to_long_side(img):
             nonlocal target_size
             h, w = img.shape[:2]
             if target_size is None:
@@ -191,7 +190,7 @@ def process_video_path(video_path, model, config, enable_ema, enable_bf16=False,
                 # 根据目标fps采样帧
                 if frame_count % max(1, int(frame_interval)) == 0:
                     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                    frame = resize_to_long_side_1080(frame)
+                    frame = resize_to_long_side(frame)
                     frames.append(frame)
                 
                 frame_count += 1
@@ -203,7 +202,7 @@ def process_video_path(video_path, model, config, enable_ema, enable_bf16=False,
                     break
                 
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                frame = resize_to_long_side_1080(frame)
+                frame = resize_to_long_side(frame)
                 frames.append(frame)
         
         cap.release()
@@ -238,7 +237,8 @@ if __name__ == '__main__':
     parser.add_argument('--enable_bf16', action='store_true', help='enable bfloat16 precision')
     parser.add_argument('--enable_tile', action='store_true', help='enable tile mode with overlap')
     parser.add_argument('--segment', action='store_true', help='enable video segmentation (default: disabled)')
+    parser.add_argument('--target_long_side', type=int, help='target long side', default=1080)
     args = parser.parse_args()
     
     config = OmegaConf.load(args.config)
-    run_eval(config, args.enable_ema, args.video_path, args.enable_bf16, args.enable_tile, not args.segment)
+    run_eval(config, args.enable_ema, args.video_path, args.enable_bf16, args.enable_tile, not args.segment,args.target_long_side)

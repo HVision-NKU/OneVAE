@@ -1,6 +1,6 @@
 ckpt_path: 'auto_resume'
 wandb_project_name: 'video_tokenizer'
-exp_name: 'OneVAE_64000_FSQ_81616_33_mt2_fe'
+exp_name: 'OneVAE_64000_FSQ_888_33_mt2'
 trainer:
   log_every_n_steps: 10
   precision: bf16
@@ -15,7 +15,7 @@ trainer:
   val_check_interval: 5000
 
 ModelCheckpoint:
-  dirpath: './all_saves/OneVAE_64000_FSQ_81616_33_mt2_fe'
+  dirpath: './all_saves/OneVAE_64000_FSQ_888_33_mt2'
   filename: "{step}-model"
   save_top_k: -1
   every_n_train_steps: 5000
@@ -23,7 +23,7 @@ ModelCheckpoint:
 model:
   target: models.video_base_model.VideoBaseModel
   params:
-    ckpt_path: './pretrained_ckpts/FSQ_888.ckpt'
+    ckpt_path: '/mnt/petrelfs/zhouyupeng/backup_s1/project/video_tokenizer/all_saves/1025_wanvae_64000x640000_bz8_FSQ_8x8x8_33_renew/step=470000-model.ckpt'
     learning_rate: 0.00005
     ema_decay: 0.9999
     embed_dim: 12
@@ -53,14 +53,14 @@ model:
       dropout: 0.0
       latent_space_gan: false
     vaeconfig:
-      target: modules.onevae.vae81616_hybrid.VAE_One
+      target: modules.onevae.vae888.VAE_One
       params:
         dim: 96
         z_dim: 256
-        dim_mult: [1, 2, 4, 4, 4]
+        dim_mult: [1, 2, 4, 4]
         num_res_blocks: 2
         attn_scales: []
-        temperal_downsample: [False, True, True, True]
+        temperal_downsample: [True, True, True]
         dropout: 0.0
     lossconfig:
       target: modules.losses.vqperceptual.VQLPIPSWithDiscriminator2
